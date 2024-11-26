@@ -1,86 +1,69 @@
-import React from "react";
-import "./EmployeeForm.css";
+import React, { useState } from "react";
 
-class EmployeeForm extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      name: "",
-      email: "",
-      title: "",
-      department: "",
+function EmployeeForm({ addEmployee }) {
+    const [employee, setEmployee] = useState({
+        name: "",
+        email: "",
+        title: "",
+        department: "",
+    });
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setEmployee({ ...employee, [name]: value });
     };
-  }
 
-  // Method to handle input field changes
-  handleInputChange = (event) => {
-    const { name, value } = event.target;
-    this.setState({ [name]: value });
-  };
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        addEmployee(employee); // Pass employee data to parent component
+        setEmployee({ name: "", email: "", title: "", department: "" }); // Reset form fields
+    };
 
-  // Method to handle form submission
-  handleSubmit = (event) => {
-    event.preventDefault();
-    console.log("Form Submitted:", this.state);
-    this.setState({ name: "", email: "", title: "", department: "" }); // Clear fields
-  };
-
-  render() {
     return (
-      <div className="employee-form-container">
-        <h2>Employee Form</h2>
-        <form onSubmit={this.handleSubmit}>
-          <div className="form-group">
-            <label htmlFor="name">Name:</label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              value={this.state.name}
-              onChange={this.handleInputChange}
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="email">Email:</label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              value={this.state.email}
-              onChange={this.handleInputChange}
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="title">Job Title:</label>
-            <input
-              type="text"
-              id="title"
-              name="title"
-              value={this.state.title}
-              onChange={this.handleInputChange}
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="department">Department:</label>
-            <input
-              type="text"
-              id="department"
-              name="department"
-              value={this.state.department}
-              onChange={this.handleInputChange}
-              required
-            />
-          </div>
-          <button type="submit">Submit</button>
+        <form onSubmit={handleSubmit}>
+            <div>
+                <label>Name:</label>
+                <input
+                    type="text"
+                    name="name"
+                    value={employee.name}
+                    onChange={handleChange}
+                    required
+                />
+            </div>
+            <div>
+                <label>Email:</label>
+                <input
+                    type="email"
+                    name="email"
+                    value={employee.email}
+                    onChange={handleChange}
+                    required
+                />
+            </div>
+            <div>
+                <label>Job Title:</label>
+                <input
+                    type="text"
+                    name="title"
+                    value={employee.title}
+                    onChange={handleChange}
+                    required
+                />
+            </div>
+            <div>
+                <label>Department:</label>
+                <input
+                    type="text"
+                    name="department"
+                    value={employee.department}
+                    onChange={handleChange}
+                    required
+                />
+            </div>
+            <button type="submit">Add Employee</button>
         </form>
-      </div>
     );
-  }
 }
 
 export default EmployeeForm;
-
-  
