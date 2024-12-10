@@ -1,18 +1,25 @@
-import React from 'react';
-import { Link } from 'react-router-dom'; // Ensure Link is imported
+import React, { useState } from "react";
 
-function EmployeeList(props) {
-  // Render the employee list
+function EmployeeList({ employees }) {
+  const [search, setSearch] = useState("");
+
+  const filteredEmployees = employees.filter((employee) =>
+    employee.name.toLowerCase().includes(search.toLowerCase())
+  );
+
   return (
-    <div className="employee-list">
+    <div>
       <h1>Employee List</h1>
+      <input
+        type="text"
+        placeholder="Search employees..."
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+      />
       <ul>
-        {props.employees.map((employee) => (
-          <li key={employee.EmployeeId}>
-            {/* Create a link to the employee detail page */}
-            <Link to={`/employees/${employee.EmployeeId}`}>
-              {employee.name}
-            </Link>
+        {filteredEmployees.map((employee) => (
+          <li key={employee.id}>
+            {employee.name} - {employee.email}
           </li>
         ))}
       </ul>
